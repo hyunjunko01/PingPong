@@ -66,9 +66,15 @@ forge script script/SendPing.s.sol --rpc-url $SEPOLIA_RPC_URL --broadcast
 ## ✅ Verification
 You can monitor the message status in real-time using the [Chainlink CCIP Explorer](https://ccip.chain.link/).
 
-### Execution Screenshots
+### Execution Screenshots (etherscan)
 * Ethereum Sepolia (Source)
-![sepolia etherscan](./screenshot/sepolia%20etherscan.png)
+  
+<p allgn="left">
+  <img src="./screenshot/sepolia%20etherscan.png", height="100x", width="100px">
+</p>
 
 * Arbitrum Sepolia (Destination)
-![arbSepolia etherscan](./screenshot/arbSepolia%20etherscan.png)
+
+<p allgn="left">
+  <img src="./screenshot/arbSepolia%20etherscan.png", height="100x", width="100px">
+</p>

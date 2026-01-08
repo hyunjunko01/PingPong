@@ -1,66 +1,74 @@
-## Foundry
+# 🏓 PingPong CCIP
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A simple yet powerful cross-chain messaging project built with **Chainlink CCIP**, enabling automated "Ping-Pong" communication between **Ethereum Sepolia** and **Arbitrum Sepolia**.
 
-Foundry consists of:
+---
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## 🚀 Features
 
-## Documentation
+* **Cross-Chain Ping:** Users can trigger the `ping` function on the source chain, which sends a secure data message to the destination chain via CCIP.
+* **Automated Pong Response:** Once the message arrives, the destination contract's internal logic (`_ccipReceive`) automatically triggers a "pong" response back to the source chain.
+* **Reliable Testing:** Fully verified using Foundry's multi-fork testing environment to ensure robust cross-chain logic.
 
-https://book.getfoundry.sh/
+---
 
-## Usage
+## 🛠 Setup
 
-### Build
+### 1. Environment Variables
+Create a `.env` file in your root directory and fill in the following details.
 
-```shell
-$ forge build
+> [!WARNING]
+> **DO NOT USE YOUR MAIN WALLET.** Always use a dedicated testnet wallet for development.
+
+```env
+# RPC URLs (Alchemy, Infura, etc.)
+SEPOLIA_RPC_URL=your_sepolia_rpc_url
+ARB_SEPOLIA_RPC_URL=your_arb_sepolia_rpc_url
+
+# Wallet Access
+SEPOLIA_PRIVATE_KEY=your_private_key
+ARB_SEPOLIA_PRIVATE_KEY=your_private_key
+
+# Contract Addresses (Update after deployment)
+SEPOLIA_PINGPONG_ADDRESS=0x...
+ARB_SEPOLIA_PINGPONG_ADDRESS=0x...
+
+# Explorer API Keys (for verification)
+ETHERSCAN_API_KEY=your_etherscan_key
 ```
 
-### Test
+### 2.installation
 
-```shell
-$ forge test
+```
+forge install
 ```
 
-### Format
+## 📦 Deployment & Interaction
 
-```shell
-$ forge fmt
+### Step 1: Deploy Contracts
+Deploy the `PingPong` contract to both networks. After deployment, make sure to update the addresses in your `.env`file.
+
+```
+# Deploy to Ethereum Sepolia
+forge script script/DeployPingPong.s.sol --rpc-url $SEPOLIA_RPC_URL --broadcast
+
+# Deploy to Arbitrum Sepolia
+forge script script/DeployPingPong.s.sol --rpc-url $ARB_SEPOLIA_RPC_URL --broadcast
 ```
 
-### Gas Snapshots
+### Step 2: Send Ping
+Execute the interaction script to start the cross-chain message journey.
 
-```shell
-$ forge snapshot
+```
+forge script script/SendPing.s.sol --rpc-url $SEPOLIA_RPC_URL --broadcast
 ```
 
-### Anvil
+## ✅ Verification
+You can monitor the message status in real-time using the [Chainlink CCIP Explorer](https://ccip.chain.link/).
 
-```shell
-$ anvil
-```
+### Execution Screenshots
+* Ethereum Sepolia (Source)
+![sepolia etherscan](./screenshot/sepolia%20etherscan.png)
 
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+* Arbitrum Sepolia (Destination)
+![arbSepolia etherscan](./screenshot/arbSepolia%20etherscan.png)
